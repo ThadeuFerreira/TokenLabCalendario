@@ -32,7 +32,8 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+TokenLabCalendar/Migrations/
 
 # Visual Studio 2015
 .vs/
-TokenLabCalendar/Migrations/20190423131541_2.cs
+

@@ -10,5 +10,13 @@ namespace TokenLabCalendar.Models
         public DbSet<Event> Events { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>()
+                .HasMany(c => c.Events)
+                .WithOne(e => e.Usuario)
+                .OnDelete(DeleteBehavior.SetNull); ;
+        }
     }
 }

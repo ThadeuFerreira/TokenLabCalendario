@@ -32,7 +32,11 @@ namespace TokenLabCalendar.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<int?>("UsuarioId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Events");
                 });
@@ -49,6 +53,14 @@ namespace TokenLabCalendar.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("TokenLabCalendar.Models.Event", b =>
+                {
+                    b.HasOne("TokenLabCalendar.Models.Usuario", "Usuario")
+                        .WithMany("Events")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }
