@@ -13,7 +13,7 @@ namespace TokenLabCalendar.Models
         [Key]
         public int Id { get; set; }
         public String Name { get; set; }
-        public String Password { get; set; }
+        public String ProfileDescription { get; set; }
         public ICollection<Event> Events { get; set; }
     }
 }

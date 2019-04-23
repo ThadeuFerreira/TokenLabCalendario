@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace TokenLabCalendar.Models
 {
-    public class CalendarioContext : DbContext
+    public class CalendarioContext : IdentityDbContext<ApplicationUser>
     {
         public CalendarioContext(DbContextOptions<CalendarioContext> options) : base(options)
         {
@@ -13,6 +14,7 @@ namespace TokenLabCalendar.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Usuario>()
                 .HasMany(c => c.Events)
                 .WithOne(e => e.Usuario)
