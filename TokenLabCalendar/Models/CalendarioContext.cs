@@ -10,15 +10,20 @@ namespace TokenLabCalendar.Models
         }
         public DbSet<Event> Events { get; set; }
 
-        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Usuario>()
+            modelBuilder.Entity<Profile>()
                 .HasMany(c => c.Events)
-                .WithOne(e => e.Usuario)
-                .OnDelete(DeleteBehavior.SetNull); ;
+                .WithOne(e => e.Profile)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne(c => c.Profile)
+                .WithOne(e => e.ApplicationUser)
+                .HasForeignKey<Profile>(b => b.ApplicationUserForeignKey);
         }
     }
 }

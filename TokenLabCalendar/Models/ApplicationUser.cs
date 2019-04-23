@@ -8,6 +8,9 @@ namespace TokenLabCalendar.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+        }
 
         public ApplicationUser(String FirstName, String LastName, String UserName, String Email)
         {
@@ -19,6 +22,8 @@ namespace TokenLabCalendar.Models
 
         public String FirstName { get; set; }
         public String LastName { get; set; }
+
+        public Profile Profile { get; set; }
 
     }
 }

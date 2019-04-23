@@ -18,6 +18,6 @@ namespace TokenLabCalendar.Models
 
         public String Description { get; set; }
 
-        public Usuario Usuario { get; set; }
+        public Profile Profile { get; set; }
     }
 }

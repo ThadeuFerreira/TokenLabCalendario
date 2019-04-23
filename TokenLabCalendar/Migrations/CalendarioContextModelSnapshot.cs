@@ -189,23 +189,25 @@ namespace TokenLabCalendar.Migrations
 
                     b.Property<string>("Location");
 
+                    b.Property<int?>("ProfileId");
+
                     b.Property<DateTime>("StartDateTime");
 
                     b.Property<string>("Title");
 
-                    b.Property<int?>("UsuarioId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("TokenLabCalendar.Models.Usuario", b =>
+            modelBuilder.Entity("TokenLabCalendar.Models.Profile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationUserForeignKey");
 
                     b.Property<string>("Name");
 
@@ -213,7 +215,10 @@ namespace TokenLabCalendar.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios");
+                    b.HasIndex("ApplicationUserForeignKey")
+                        .IsUnique();
+
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -263,10 +268,17 @@ namespace TokenLabCalendar.Migrations
 
             modelBuilder.Entity("TokenLabCalendar.Models.Event", b =>
                 {
-                    b.HasOne("TokenLabCalendar.Models.Usuario", "Usuario")
+                    b.HasOne("TokenLabCalendar.Models.Profile", "Profile")
                         .WithMany("Events")
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.SetNull);
+                });
+
+            modelBuilder.Entity("TokenLabCalendar.Models.Profile", b =>
+                {
+                    b.HasOne("TokenLabCalendar.Models.ApplicationUser", "ApplicationUser")
+                        .WithOne("Profile")
+                        .HasForeignKey("TokenLabCalendar.Models.Profile", "ApplicationUserForeignKey");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,7 +20,7 @@ namespace TokenLabCalendar.Controllers
         // GET: Usuario
         public ActionResult Index()
         {
-            List<Usuario> usaList = _context.Usuarios.ToList();
+            List<Profile> usaList = _context.Profiles.ToList();
             return View(usaList);
         }
 
