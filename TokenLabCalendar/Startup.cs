@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using TokenLabCalendar.Models;
 
 namespace TokenLabCalendar
@@ -58,6 +60,33 @@ namespace TokenLabCalendar
                 // Make sure users have unique emails
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.AddAuthentication().
+                AddJwtBearer(options =>
+                {
+                    // Set validation parameters
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // Validate issuer
+                        ValidateIssuer = true,
+                        // Validate audience
+                        ValidateAudience = true,
+                        // Validate expiration
+                        ValidateLifetime = true,
+                        // Validate signature
+                        ValidateIssuerSigningKey = true,
+
+                        // Set issuer
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        // Set audience
+                        ValidAudience = Configuration["Jwt:Audience"],
+
+                        // Set signing key
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            // Get our secret key from configuration
+                            Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                    };
+                });
 
             services.ConfigureApplicationCookie(options =>
             {

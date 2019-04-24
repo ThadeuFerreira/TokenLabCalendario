@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +13,24 @@ namespace TokenLabCalendar.Controllers
 {
     public class ProfilesController : Controller
     {
+        #region Protected Members
         private readonly CalendarioContext _context;
+        protected UserManager<ApplicationUser> mUserManager;
+        protected SignInManager<ApplicationUser> mSignInManager;
+        #endregion
 
-        public ProfilesController(CalendarioContext context)
+        #region Constructor
+
+        public ProfilesController(CalendarioContext context,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
+            mUserManager = userManager;
+            mSignInManager = signInManager;
         }
+
+        #endregion
 
         // GET: Profiles
         public async Task<IActionResult> Index()
@@ -26,6 +40,7 @@ namespace TokenLabCalendar.Controllers
         }
 
         // GET: Profiles/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
