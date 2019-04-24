@@ -18,5 +18,10 @@ namespace TokenLabCalendar.Models
 
         public ApplicationUser ApplicationUser { get; set; }
         public string ApplicationUserForeignKey { get; set; }
+
+        public Profile()
+        {
+            this.Events = new HashSet<Event>();
+        }
     }
 }
