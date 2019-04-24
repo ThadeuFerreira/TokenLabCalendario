@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using TokenLabCalendar.Models;
 using Pomelo.EntityFrameworkCore.MySql;
 using Pomelo.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TokenLabCalendar.Controllers
 {
@@ -64,5 +65,28 @@ namespace TokenLabCalendar.Controllers
 
             return Content("User created FAILED", "text/html");
         }
+
+        [Authorize]
+        [Route("private")]
+        public IActionResult Private()
+        {
+            return Content($"This is a private area. Welcome {HttpContext.User.Identity.Name}", "text/html");
+        }
+
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync(string returnUrl)
+        {
+           var result = await mSignInManager.PasswordSignInAsync("Antonio", "Pasword123456#", true, false);
+           if (result.Succeeded)
+           {
+               if (string.IsNullOrEmpty(returnUrl))
+                   return RedirectToAction(nameof(Index));
+
+               return Redirect(returnUrl);
+           }
+
+           return Content("Unable to Login", "text/html");
+        }
+
     }
 }
