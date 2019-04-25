@@ -1,0 +1,6 @@
+docker run --name calendario-mysql -v /my/own/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=calendario -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mysql -p "3306:3306" -d mysql:latest
+
+#go to TokenLabCalendar/TokenLabCalendar
+#run
+dotnet ef migration add InitialMigration
+dotnet ef database update
