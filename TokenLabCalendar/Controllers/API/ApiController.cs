@@ -130,39 +130,74 @@ namespace TokenLabCalendar.Controllers.API
                 };
         }
 
+        [AllowAnonymous]
         [Route("api/login")]
-        public IActionResult LogIn()
+        public async Task<ApiResponse<UserProfileDetailsApiModel>> LogInAsync([FromBody]LoginCredentialsApiModel loginCredentials)
         {
-            var username = "Antonio";
-            var email = "contact@email.com";
+            // TODO: Localize all strings
+            // The message when we fail to login
+            var invalidErrorMessage = "Invalid username or password";
 
-            var claims = new[]
+            // The error response for a failed login
+            var errorResponse = new ApiResponse<UserProfileDetailsApiModel>
             {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(JwtRegisteredClaimNames.NameId, username),
-                new Claim(JwtRegisteredClaimNames.Email, email),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, username),
-
-                new Claim("my key", "my value")
-
+                // Set error message
+                ErrorMessage = invalidErrorMessage
             };
 
-            var credential = new SigningCredentials(new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
-                SecurityAlgorithms.HmacSha256);
+            // Make sure we have a user name
+            if (loginCredentials?.UsernameOrEmail == null || string.IsNullOrWhiteSpace(loginCredentials.UsernameOrEmail))
+                // Return error message to user
+                return errorResponse;
 
-            var token = new JwtSecurityToken(
-                issuer: Configuration["Jwt:Issuer"],
-                audience: Configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddDays(7),
-                signingCredentials: credential);
+            // Validate if the user credentials are correct...
 
-            return Ok(new
+            // Is it an email?
+            var isEmail = loginCredentials.UsernameOrEmail.Contains("@");
+
+            // Get the user details
+            var user = isEmail ?
+                // Find by email
+                await mUserManager.FindByEmailAsync(loginCredentials.UsernameOrEmail) :
+                // Find by username
+                await mUserManager.FindByNameAsync(loginCredentials.UsernameOrEmail);
+
+            // If we failed to find a user...
+            if (user == null)
+                // Return error message to user
+                return errorResponse;
+
+            // If we got here we have a user...
+            // Let's validate the password
+
+            // Get if password is valid
+            var isValidPassword = await mUserManager.CheckPasswordAsync(user, loginCredentials.Password);
+
+            // If the password was wrong
+            if (!isValidPassword)
+                // Return error message to user
+                return errorResponse;
+
+            // If we get here, we are valid and the user passed the correct login details
+
+            // Get username
+            var username = user.UserName;
+
+            // Return token to user
+            return new ApiResponse<UserProfileDetailsApiModel>
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token)
-            });
+                // Pass back the user details and the token
+                Response = new UserProfileDetailsApiModel
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    Username = user.UserName,
+                    Token = GenerateJwtToken(user)
+                }
+            };
         }
+
 
         private string GenerateJwtToken(ApplicationUser user)
         {
