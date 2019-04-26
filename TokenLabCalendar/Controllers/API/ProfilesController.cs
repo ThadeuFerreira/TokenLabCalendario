@@ -43,7 +43,7 @@ namespace TokenLabCalendar.Controllers.API
 
         // PUT: api/Profiles/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProfile(int id, Profile profile)
+        public async Task<IActionResult> PutProfile(string id, Profile profile)
         {
             if (id != profile.Id)
             {
@@ -97,7 +97,7 @@ namespace TokenLabCalendar.Controllers.API
             return profile;
         }
 
-        private bool ProfileExists(int id)
+        private bool ProfileExists(string id)
         {
             return _context.Profiles.Any(e => e.Id == id);
         }

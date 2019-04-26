@@ -53,7 +53,7 @@ namespace TokenLabCalendar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StartDateTime,EndDateTime,Title,Location,Description")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,StartDateTime,EndDateTime,Title,Location,Description,ProfileForeignKey")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace TokenLabCalendar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDateTime,EndDateTime,Title,Location,Description")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDateTime,EndDateTime,Title,Location,Description,ProfileForeignKey")] Event @event)
         {
             if (id != @event.Id)
             {

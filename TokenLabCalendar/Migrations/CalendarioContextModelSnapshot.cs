@@ -189,7 +189,9 @@ namespace TokenLabCalendar.Migrations
 
                     b.Property<string>("Location");
 
-                    b.Property<int?>("ProfileId");
+                    b.Property<string>("ProfileForeignKey");
+
+                    b.Property<string>("ProfileId");
 
                     b.Property<DateTime>("StartDateTime");
 
@@ -204,7 +206,7 @@ namespace TokenLabCalendar.Migrations
 
             modelBuilder.Entity("TokenLabCalendar.Models.Profile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ApplicationUserForeignKey");

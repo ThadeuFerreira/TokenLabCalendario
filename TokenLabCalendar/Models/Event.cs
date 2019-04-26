@@ -19,5 +19,6 @@ namespace TokenLabCalendar.Models
         public String Description { get; set; }
 
         public Profile Profile { get; set; }
+        public string ProfileForeignKey { get; set; }
     }
 }

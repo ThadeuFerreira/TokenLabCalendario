@@ -40,8 +40,7 @@ namespace TokenLabCalendar.Controllers
         }
 
         // GET: Profiles/Details/5
-        [Authorize]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -108,7 +107,7 @@ namespace TokenLabCalendar.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ProfileDescription,ApplicationUserForeignKey")] Profile profile)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,ProfileDescription,ApplicationUserForeignKey")] Profile profile)
         {
             if (id != profile.Id)
             {
@@ -140,7 +139,7 @@ namespace TokenLabCalendar.Controllers
         }
 
         // GET: Profiles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
@@ -169,7 +168,7 @@ namespace TokenLabCalendar.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProfileExists(int id)
+        private bool ProfileExists(string id)
         {
             return _context.Profiles.Any(e => e.Id == id);
         }

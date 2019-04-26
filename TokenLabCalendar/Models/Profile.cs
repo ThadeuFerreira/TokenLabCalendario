@@ -11,7 +11,7 @@ namespace TokenLabCalendar.Models
     public class Profile
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
         public String Name { get; set; }
         public String ProfileDescription { get; set; }
         public ICollection<Event> Events { get; set; }
