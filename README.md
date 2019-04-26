@@ -19,3 +19,22 @@ Na pasta TokenLabCalendario/TokenLabCalendario execute:
 `dotnet run`
 
 As paginas e APIs vão estar disponiveis em localhost:5000
+
+
+API/CREATE
+
+{
+                "Username": "ThadeuCosta3",
+                "FirstName": "Thadeu3",
+                "LastName": "Costa3",
+                "Email": "thadeucosta3@email.com",
+                "Password": "Password1234#"
+            }
+            
+API/LOGIN
+
+{        "usernameoremail": "thadeucosta3@email.com",
+        "password": "Password1234#"
+    }
+            
+            
