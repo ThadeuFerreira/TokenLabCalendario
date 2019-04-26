@@ -24,6 +24,5 @@ namespace TokenLabCalendar.Models
         public String LastName { get; set; }
 
         public Profile Profile { get; set; }
-
     }
 }
